@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="calculator">
+            <form name="calculator">
+                <div class="display">
+                    <input type="text" id="display" readonly aria-label="Calculator display">
+                </div>
+                
+                <div>
+                    <input type="button" value="AC" onclick="clearDisplay()" class="operator" aria-label="Clear display">
+                    <input type="button" value="DE" onclick="deleteLast()" class="operator" aria-label="Delete last input">
+                    <input type="button" value="." onclick="insertDecimal()" class="operator" aria-label="Decimal point">
+                    <input type="button" value="/" onclick="insertOperator('/')" class="operator" aria-label="Divide">
+                </div>
+
+                <div>
+                    <input type="button" value="7" onclick="insertNumber('7')" aria-label="7">
+                    <input type="button" value="8" onclick="insertNumber('8')" aria-label="8">
+                    <input type="button" value="9" onclick="insertNumber('9')" aria-label="9">
+                    <input type="button" value="*" onclick="insertOperator('*')" class="operator" aria-label="Multiply">
+                </div>
+
+                <div>
+                    <input type="button" value="4" onclick="insertNumber('4')" aria-label="4">
+                    <input type="button" value="5" onclick="insertNumber('5')" aria-label="5">
+                    <input type="button" value="6" onclick="insertNumber('6')" aria-label="6">
+                    <input type="button" value="-" onclick="insertOperator('-')" class="operator" aria-label="Subtract">
+                </div>
+
+                <div>
+                    <input type="button" value="1" onclick="insertNumber('1')" aria-label="1">
+                    <input type="button" value="2" onclick="insertNumber('2')" aria-label="2">
+                    <input type="button" value="3" onclick="insertNumber('3')" aria-label="3">
+                    <input type="button" value="+" onclick="insertOperator('+')" class="operator" aria-label="Add">
+                </div>
+
+                <div>
+                    <input type="button" value="00" onclick="insertNumber('00')" aria-label="00">
+                    <input type="button" value="0" onclick="insertNumber('0')" aria-label="0">
+                    <input type="button" value="=" onclick="calculateResult()" class="equal operator" aria-label="Equals">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function insertNumber(num) {
+            display.value += num;
+        }
+
+        function insertOperator(operator) {
+
+            //  IT Prevents multiple operators in a row
+            
+            const lastChar = display.value.slice(-1);
+            if (['+', '-', '*', '/'].includes(lastChar)) {
+                display.value = display.value.slice(0, -1);
+            }
+            display.value += operator;
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function deleteLast() {
+            display.value = display.value.toString().slice(0, -1);
+        }
+
+        function insertDecimal() {
+            const currentValue = display.value;
+            if (!currentValue.includes('.')) {
+                display.value += '.';
+            }
+        }
+
+        function calculateResult() {
+            try {
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
+            }
+        }
+    </script>
+</body>
+</html>
